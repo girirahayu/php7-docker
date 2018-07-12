@@ -81,6 +81,8 @@ RUN sed -i -e "s/;\?listen\s*=\s*.*/listen = 127.0.0.1:9000/g" /etc/php/$PHPVERS
 WORKDIR /etc/nginx
 #RUN sed -i -e "s/user nginx;/user www-data;/g" nginx.conf && rm conf.d/default.conf 
 
+RUN rm conf.d/default.conf 
+
 #copy file to docker
 COPY default.conf conf.d/default.conf
 COPY vhost.conf conf.d/vhost.conf
@@ -117,7 +119,7 @@ RUN rc-update add dcron default && \
     && sed -i 's/VSERVER/DOCKER/Ig' /lib/rc/sh/init.sh
 
 #change permission
-RUN mkdir -p /opt/www && chown -R www-data:www-data /opt
+RUN mkdir -p /opt/www && chown -R nginx:nginx /opt
 
 WORKDIR /opt/www
 COPY index.html index.html
