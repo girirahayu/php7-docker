@@ -74,6 +74,7 @@ RUN sed -i -e "s/;\?listen\s*=\s*.*/listen = 127.0.0.1:9000/g" /etc/php/$PHPVERS
     sed -i -e "s/;\?memory_limit\s*=\s*.*/memory_limit = 300M/g" /etc/php/$PHPVERSION/php.ini && \
     sed -i -e "s/;\?max_execution_time\s*=\s*.*/max_execution_time = 60/g" /etc/php/$PHPVERSION/php.ini && \
     sed -i -e "s/;\?pm\s*=\s*.*/pm = static/g" /etc/php/$PHPVERSION/php-fpm.d/www.conf && \
+    sed -i -e "s/;\?expose_php\s*=\s*.*/expose_php = Off/g" /etc/php/$PHPVERSION/php.ini && \
     sed -i -e "s/;\?pm.max_children\s*=\s*.*/pm.max_children = 16/g" /etc/php/$PHPVERSION/php-fpm.d/www.conf && \
     ln -nsf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
@@ -81,6 +82,8 @@ RUN sed -i -e "s/;\?listen\s*=\s*.*/listen = 127.0.0.1:9000/g" /etc/php/$PHPVERS
 WORKDIR /etc/nginx
 #RUN sed -i -e "s/user nginx;/user www-data;/g" nginx.conf && rm conf.d/default.conf 
 
+RUN rm nginx.conf
+ADD nginx.conf nginx.conf
 RUN rm conf.d/default.conf 
 
 #copy file to docker
